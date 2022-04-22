@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Purchases extends Model
 {
     use HasFactory;
+    protected $table = 'purchases';
+    protected $guarded = [];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    
 }

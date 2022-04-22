@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchasesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\SigninControler;
@@ -37,11 +38,23 @@ Route::post('/products/{user_id}', 'ProductController@store');
 Route::post('/purchase/{user_id}/{product_id}', 'TransactionController@store'); // buy one product at a time, with just topped up amount
 
 //TODO: DO NOT USER TRANSACTIONS TABLE
-Route::post('/auth/login', [AuthController::class, 'login']);
-Route::post('/auth/signup', [AuthController::class, 'register']);
+// Route::post('/auth/login', );
+// Route::post('/auth/signup', [AuthController::class, 'register']);
 
+Route::group(['prefix'=>'auth'], function (){
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/signup', [AuthController::class, 'register']);
+});
 
 //product route 
-Route::get('/products', [ProductController::class, 'index']);
-//Topuproutes
+Route::group(['prefix'=>'products', 'middleware'=> 'auth:sanctum'], function (){
+    Route::get('/', [ProductController::class, 'index']); 
+    Route::get('/purchase/{user_id}/{}', 'ProductController@store'); //cliend id 
+    Route::get('/purchase/{user_id}/{}', 'ProductController@store'); //cliend id 
+
+});
+//Topup & purchas routes
 Route::post('/topup/create', [TopupController::class, 'store']);
+Route::get('/topups/all/{user_id}', [TopupController::class, 'index']);
+Route::get('/purchases/all/{user_id}', [PurchasesController::class, 'index']);
+Route::post('/purchases/new/{user_id}/{product_id}', [PurchasesController::class, 'store']);
