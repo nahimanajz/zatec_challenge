@@ -15,7 +15,7 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        //
+        // retrieve, balance, topups, purchases, 
     }
 
     /**

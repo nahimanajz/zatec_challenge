@@ -47,12 +47,13 @@ Route::group(['prefix'=>'auth'], function (){
 });
 
 //product route 
-Route::group(['prefix'=>'products', 'middleware'=> 'auth:sanctum'], function (){
+//Route::group(['prefix'=>'products', 'middleware'=> 'auth:sanctum'], function (){
+Route::group(['prefix'=>'products'], function (){
     Route::get('/', [ProductController::class, 'index']); 
     Route::get('/purchase/{user_id}/{}', 'ProductController@store'); //cliend id 
     Route::get('/purchase/{user_id}/{}', 'ProductController@store'); //cliend id 
-
 });
+
 //Topup & purchas routes
 Route::post('/topup/create', [TopupController::class, 'store']);
 Route::get('/topups/all/{user_id}', [TopupController::class, 'index']);
