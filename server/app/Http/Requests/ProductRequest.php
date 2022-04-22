@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTopupRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StoreTopupRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,9 +24,7 @@ class StoreTopupRequest extends FormRequest
     public function rules()
     {
         return [
-            'curreny'=> 'required',
-            'amount' => 'required|integer',
-            "user_id" => 'required'
+            //
         ];
     }
 }
