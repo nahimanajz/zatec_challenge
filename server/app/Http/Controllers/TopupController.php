@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTopupRequest;
 use App\Http\Requests\UpdateTopupRequest;
 use App\Models\Topup;
+use App\Models\User;
 
 class TopupController extends Controller
 {
@@ -34,9 +35,21 @@ class TopupController extends Controller
      * @param  \App\Http\Requests\StoreTopupRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTopupRequest $request)
+    public function store()
     {
-        //
+        //tdodo insert topup, and update user balance later on adding new column to keep balance of user 
+    $data = request()->all();
+    $save = Topup::create(['amount'=>$data['amount'], 'currency'=>$data['currency'], "user_id" => $data["user_id"] ]);
+    if($save) {
+        User::updateBalance($data['amount'], $data['user_id']);
+        return response()->json(['messae' => 'topup created successfully','topup' => $save]);
+
+        } else {
+            return response()->json(array('error' => 'Failed to save'));
+
+    }
+         
+        
     }
 
     /**

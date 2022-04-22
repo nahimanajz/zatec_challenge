@@ -1,7 +1,14 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+//use App\Http\Controllers\SigninControler;
+use App\Http\Controllers\SigninControler;
+use App\Http\Controllers\TopupController;
+use App\Models\Topup;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +37,11 @@ Route::post('/products/{user_id}', 'ProductController@store');
 Route::post('/purchase/{user_id}/{product_id}', 'TransactionController@store'); // buy one product at a time, with just topped up amount
 
 //TODO: DO NOT USER TRANSACTIONS TABLE
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/signup', [AuthController::class, 'register']);
+
+
+//product route 
+Route::get('/products', [ProductController::class, 'index']);
+//Topuproutes
+Route::post('/topup/create', [TopupController::class, 'store']);
