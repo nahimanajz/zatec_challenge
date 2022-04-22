@@ -34,7 +34,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-    protected $table= "users";
+    protected $table = "users";
     /**
      * The attributes that should be cast.
      *
@@ -44,15 +44,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function updateBalance($topedupAmount, $user_id) {
-        try {
-            $user = DB::table('users')->where('id', auth()->user()->id ?? $user_id);
-            dd($user);
-            //$user = $user->balance + $topedupAmount;
-            $user->save();
-        } catch(Exception $e) {
-           dd($e->message);
-        }
-     
+    public static function updateBalance($transactionAmount, $user_id, $action)
+    {
+
+        $user = User::find($user_id);
+        $user->balance = $action == 'add' ? $user->balance + $transactionAmount : $user->balance - $transactionAmount;
+        $user->save();
+        return $user;
+    }
+    public function purchases()
+    {
+        return $this->hasMany(Purchases::class);
     }
 }

@@ -6,6 +6,9 @@ use App\Http\Requests\StoreTopupRequest;
 use App\Http\Requests\UpdateTopupRequest;
 use App\Models\Topup;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 
 class TopupController extends Controller
 {
@@ -14,9 +17,9 @@ class TopupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        //
+        return response()->json(["topups" =>  Topup::select("*")->where("user_id", "=", $userId)->get()]);
     }
 
     /**
@@ -35,14 +38,14 @@ class TopupController extends Controller
      * @param  \App\Http\Requests\StoreTopupRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $req)
     {
         //tdodo insert topup, and update user balance later on adding new column to keep balance of user 
     $data = request()->all();
-    $save = Topup::create(['amount'=>$data['amount'], 'currency'=>$data['currency'], "user_id" => $data["user_id"] ]);
+    $save = Topup::create(['amount'=>$data['amount'], 'currency'=>$data['currency'], "user_id" => $data['user_id']]);
     if($save) {
-        User::updateBalance($data['amount'], $data['user_id']);
-        return response()->json(['messae' => 'topup created successfully','topup' => $save]);
+        $updateBalance = User::updateBalance($data['amount'], $data['user_id'],"add");
+        return response()->json(['message' => 'topup created successfully','topup' => $save, "balance" => $updateBalance]);
 
         } else {
             return response()->json(array('error' => 'Failed to save'));
