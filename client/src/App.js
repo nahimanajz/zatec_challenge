@@ -8,6 +8,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { Products } from "./screens/Products";
 const axios = require("axios");
 
 const App = React.memo(function App() {
@@ -32,18 +33,14 @@ const App = React.memo(function App() {
      <div className="app">
       <main className={"padding-32"}>
       <Switch>
-      {/* <Route
-        path="/signup"
+      <Route
+        path="/products"
         element={
-          <MyList
-            changeScreenTitle={changeScreenTitle}
-            countries={addedCountries && addedCountries}
-            updateCountry={updateCountry}
-            deleteCountry={deleteCountry}
-            goToDetail={goToDetail}
+          <Products
+            data={products}
           />
         }
-      /> */}
+      />
       <Route path="/">
             <Signin/>
       </Route>

@@ -3,7 +3,15 @@ import { Add } from "../assets/Add";
 import { Bin } from "../assets/Bin";
 import { Check } from "../assets/Check";
 
-export function ListableProduct() {
+export function ListableProduct({item}) {
+  const {id, name, price, discount } = item
+  //TODO:
+  const balanceAfterShopping = ()=>{
+    const balance = localStorage.getItem('userInfo').balance  
+  } 
+  const balancebBeforeShopping = ()=>{
+    localStorage.getItem('userInfo').balance
+  } 
   return (
     <>
       <ToastContainer />
@@ -13,17 +21,19 @@ export function ListableProduct() {
                   className="flag onlist"
                   onClick={()=>alert()}                  
                   alt="flag"
+                  src={'someimage'}
                   
                 />
 
                 <ul className="subtitle2">
-                  <strong>{'name'}</strong>
+                  <strong>{name}</strong>
                 </ul>
 
                 <ul type="none">
-                  <li>Population:{''}</li>
-                  <li>Capital: {''} </li>
+                  <li>Rwf:{price}</li>
+                  <li>Discount: {discount} Rwf </li>
                   <li>Currency: {''}</li>
+                  <hr />
                 </ul>
 
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
