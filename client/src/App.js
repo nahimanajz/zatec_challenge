@@ -2,12 +2,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import { BACKEND_API_ROUTE, headers } from "./util";
 import { Signup } from "./screens/Signup";
 import Signin from "./screens/Signin";
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 const axios = require("axios");
 
 const App = React.memo(function App() {
   const[products, setProducts] = useState(false) // display loader
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     const { data } = await axios.get(`${BACKEND_API_ROUTE}products`, headers);
@@ -42,7 +47,7 @@ const App = React.memo(function App() {
       <Route path="/">
             <Signin/>
       </Route>
-        <Route path="/Signup">
+        <Route path="/signup">
           <Signup />
         </Route>
        </Switch>
