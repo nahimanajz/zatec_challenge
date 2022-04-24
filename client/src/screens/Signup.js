@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
-import { BACKEND_API_ROUTE } from "../util";
+import { BACKEND_API_ROUTE, headers } from "../util";
 import { toast, ToastContainer } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 /**
  * - User signin
@@ -11,11 +11,13 @@ import { Link } from "react-router-dom";
  */
 
 export default function Signup({ showDashboard, userInfo }) {
+  const navigate = useNavigate();
   const [state, setState] = useState({
     name: "",
     email: "",
     password: "",
-    userType: "",
+    userType: "client",
+    balance:0
   });
   const handleChange = useCallback(
     (e) => {
@@ -25,15 +27,13 @@ export default function Signup({ showDashboard, userInfo }) {
   );
   const handleSignup = async () => {
     try {
-      const { data } = await axios.post(`${BACKEND_API_ROUTE}auth/signup`, {
-        state,
-      });
+      const { data } = await axios.post(`${BACKEND_API_ROUTE}auth/signup`, state, headers);
       if (data.error) {
         toast("Please correct your data");
       } else {
         toast("Well done!!");
-        userInfo(data.newUser);
-        showDashboard(true);
+        localStorage.setItem('userInfo', JSON.stringify(data.user))
+        navigate('/products')
       }
     } catch (error) {
       toast(error.message);
@@ -61,6 +61,7 @@ export default function Signup({ showDashboard, userInfo }) {
               onChange={handleChange}
               placeholder="Password"
               name="password"
+              autoComplete="off"
               required
             />
           </li>
@@ -71,19 +72,20 @@ export default function Signup({ showDashboard, userInfo }) {
               onChange={handleChange}
               placeholder="Email"
               name="email"
+              autoComplete="off"
               required
             />
           </li>
           <li>
-            <label>User Type</label>
+            <label>User Type (optional)</label>
             <select
               type="select"
               onChange={handleChange}
               name="userType"
               required
             >
-              <option>Client</option>
-              <option>Admin</option>
+              <option value="client">Client</option>
+              <option value="admin">Admin</option>
             </select>
           </li>
 
@@ -93,12 +95,8 @@ export default function Signup({ showDashboard, userInfo }) {
               onClick={handleSignup}
               className="btn"
               value="Signup"
-              style={{ height: 48 }}
-              disabled={state.length < 6 ? true : false}
+              style={{ height: 48 }}             
             />
-          </li>
-          <li>
-            <Link to="/"> Signin </Link>
           </li>
         </ul>
       </form>

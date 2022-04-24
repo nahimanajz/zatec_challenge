@@ -6,7 +6,7 @@ import { BACKEND_API_ROUTE, headers, totalize, userId } from "../util";
 export function Dashoard() {
   const [purchases, setPurchases] = useState();
   const [topups, setTopups] = useState();
-  const balance = localStorage.getItem('balance') || 0
+  const [balance, setBalance] = useState(localStorage.getItem('balance'))
   const fetchData = useCallback(async () => {
     try {
       const {
@@ -16,6 +16,13 @@ export function Dashoard() {
         headers
       );
      
+      const {
+       data
+      } = await axios.get(
+        `${BACKEND_API_ROUTE}user/${userId}`,
+        headers
+      );
+      setBalance(data)
 
       const {
         data: { topups },
