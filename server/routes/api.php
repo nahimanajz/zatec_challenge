@@ -29,12 +29,10 @@ Route::get('/test', function(){
     return json_encode(["message"=> "Hi api are working !!!!"]);
 });
 
-Route::post('/products/create', 'ProductController@store');
-Route::put('/products/create', 'ProductController@store');
-Route::get('/products', 'ProductController@index'); // only admin
+Route::get('/products', 'ProductController@index'); 
+Route::post('/products', [ProductController::class, 'store']);
 
-// update amount
-Route::post('/products/{user_id}', 'ProductController@store');
+//Route::post('/products/{user_id}', 'ProductController@store');
 Route::post('/purchase/{user_id}/{product_id}', 'TransactionController@store'); // buy one product at a time, with just topped up amount
 
 //TODO: DO NOT USER TRANSACTIONS TABLE
