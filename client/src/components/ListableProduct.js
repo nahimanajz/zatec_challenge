@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { Add } from "../assets/Add";
 import { Bin } from "../assets/Bin";
@@ -5,12 +6,13 @@ import { Check } from "../assets/Check";
 
 export function ListableProduct({item}) {
   const {id, name, price, discount } = item
+  const [balance] = useState(localStorage.getItem('userInfo').balance)
   //TODO:
   const balanceAfterShopping = ()=>{
-    const balance = localStorage.getItem('userInfo').balance  
+   
   } 
   const balancebBeforeShopping = ()=>{
-    localStorage.getItem('userInfo').balance
+    
   } 
   return (
     <>

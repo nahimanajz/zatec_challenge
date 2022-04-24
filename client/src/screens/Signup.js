@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
  * @param {Function} props.userInfo  setUser info so that can view relavant info on dashboard
  */
 
-export function Signup({ showDashboard, userInfo }) {
+export default function Signup({ showDashboard, userInfo }) {
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -98,7 +98,7 @@ export function Signup({ showDashboard, userInfo }) {
             />
           </li>
           <li>
-            <Link to="/"> Signup </Link>
+            <Link to="/"> Signin </Link>
           </li>
         </ul>
       </form>

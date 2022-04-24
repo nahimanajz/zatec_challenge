@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_API_ROUTE, headers } from "../util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Signin(props) {
   const [state, setState] = useState({ email: "", password: "" });
+  const navigate = useNavigate()
   const handleChange = useCallback(
     (e) => {
       setState({ ...state, [e.target.name]: e.target.value });
@@ -21,8 +22,9 @@ export default function Signin(props) {
     try {
       const { data } = await axios.post(`${BACKEND_API_ROUTE}auth/login`, state, {...headers, accept: 'application/json'});
       if (data.token) {
-        localStorage.setItem("userInfo", data.user);
+        localStorage.setItem("userInfo", JSON.stringify(data.user));
         localStorage.setItem("userToken", data.token);
+        navigate('/products')
       } else{
         toast(data.message)
       }
