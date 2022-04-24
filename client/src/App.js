@@ -20,6 +20,7 @@ export default function App() {
   const [logout, setLogout] = useState(false); // display loader
   const[userInfo, setUserInfo] = useState(cached)
   const fetchData = useCallback(async () => {
+    const { data } = await axios.get(`${BACKEND_API_ROUTE}products`, headers);
     const { data:balance  } = await axios.get(
       `${BACKEND_API_ROUTE}user/${userId}`,
       headers
@@ -62,14 +63,14 @@ export default function App() {
       </div>
       <div className="main">
         <Routes>
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/admin/new-product" element={<NewProduct />} />
-          <Route path="/topup" element={<Topup />} />
-          <Route path="/dashboard" element={<Dashoard />} />
-          <Route path="/public" element={<PublicNav />} />
-          <Route path="/auth" element={<AuthNav />} />
+          <Route exact path="/signin" element={<Signin />} />
+          <Route exact path="/signup" element={<Signup />} />
+          <Route exact path="/products" element={<Products />} />
+          <Route exact path="/admin/new-product" element={<NewProduct />} />
+          <Route exact path="/topup" element={<Topup />} />
+          <Route exact path="/dashboard" element={<Dashoard />} />
+          <Route exact path="/public" element={<PublicNav />} />
+          <Route exact path="/auth" element={<AuthNav />} />
         </Routes>
       </div>
       <div className="footer">  </div>

@@ -2,6 +2,8 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { BACKEND_API_ROUTE, headers, userId, userType } from "../util";
+import AdminNav from "./AdminNav";
+import PublicNav from "./PublicNav";
 
 export function Products() {
   // TODO show client before and after buying
@@ -31,6 +33,7 @@ export function Products() {
   return (
     <>
     <ToastContainer />
+    {userType === "client" ? <PublicNav /> : <AdminNav /> }
     <div className="container">
       {!products && <div>Not found</div>}
       {products &&

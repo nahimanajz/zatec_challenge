@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
 import { BACKEND_API_ROUTE, headers } from "../../util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,7 +18,7 @@ export default function NewProduct(props) {
   const handleSave = async() => {
 
     try {
-      const { data } = await axios.post(`${BACKEND_API_ROUTE}products/create`, state, {...headers, accept: 'application/json'});
+      const { data } = await axios.post(`${BACKEND_API_ROUTE}products`, state, {...headers, accept: 'application/json'});
       if (data.token) {
         localStorage.setItem("userInfo", data.user);
         localStorage.setItem("userToken", data.token);
