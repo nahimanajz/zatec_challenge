@@ -24,7 +24,7 @@ export default function Signin(props) {
       if (data.token) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
         localStorage.setItem("userToken", data.token);
-        navigate('/')
+        navigate('/products')
       } else{
         toast(data.message)
       }
