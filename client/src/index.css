@@ -82,6 +82,11 @@ button {
   border: .1px solid var(--primary-color);
 
 }
+.row {
+  font-size: 48px;
+  color: var(--secondary-color);
+  text-align: center;
+}
 .modal {
   display: grid;
   list-style-type: none;
