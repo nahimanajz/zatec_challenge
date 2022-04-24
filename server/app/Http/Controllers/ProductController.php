@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class ProductController extends Controller
 {
@@ -37,12 +39,19 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        $data = request()->all();
-        return dd($data);
-        //Product::create($data);
-       // return response()->json(["message"=> 'Product Saved']);
+        $rules = [
+            'name' => ['required', 'unique:products'],
+            'price' => ['required']
+          ];
+          $data = request()->only('price', 'name', 'discount');
+          $vld = Validator::make($data, $rules);
+        if($vld->fails()) {
+            return $vld->messages();
+        }
+       Product::create($data);
+       return response()->json(["message"=> 'Product Saved']);
     }
 
     /**
