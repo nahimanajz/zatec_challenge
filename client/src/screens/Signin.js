@@ -24,7 +24,7 @@ export default function Signin(props) {
       if (data.token) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
         localStorage.setItem("userToken", data.token);
-        navigate('/products')
+        navigate('/')
       } else{
         toast(data.message)
       }
@@ -45,6 +45,7 @@ export default function Signin(props) {
               onChange={handleChange}
               placeholder="Email"
               name="email"
+              autoComplete="off"
               required
             />
           </li>
@@ -55,6 +56,7 @@ export default function Signin(props) {
               onChange={handleChange}
               placeholder="Password"
               name="password"
+              autoComplete="off"
               required
             />
           </li>
@@ -66,9 +68,6 @@ export default function Signin(props) {
               value="Signin"
               style={{ height: 48 }}
             />
-          </li>
-          <li>
-            <Link to="/signup">Signup</Link>            
           </li>
         </ul>
       </form>

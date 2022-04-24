@@ -19,7 +19,7 @@ export default function NewProduct(props) {
   const handleSave = async() => {
 
     try {
-      const { data } = await axios.post(`${BACKEND_API_ROUTE}product/save`, state, {...headers, accept: 'application/json'});
+      const { data } = await axios.post(`${BACKEND_API_ROUTE}products/create`, state, {...headers, accept: 'application/json'});
       if (data.token) {
         localStorage.setItem("userInfo", data.user);
         localStorage.setItem("userToken", data.token);
@@ -71,12 +71,9 @@ export default function NewProduct(props) {
               type="button"
               onClick={handleSave}
               className="btn"
-              value="Signin"
+              value="Save"
               style={{ height: 48 }}
             />
-          </li>
-          <li>
-            <Link to="/signup">Signup</Link>            
           </li>
         </ul>
       </form>

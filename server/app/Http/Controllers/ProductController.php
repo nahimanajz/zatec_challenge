@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function __invoke(Request $request)
+    {
+        return "Welcome to our homepage";
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,9 +37,12 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request)
+    public function store()
     {
-        //
+        $data = request()->all();
+        return dd($data);
+        //Product::create($data);
+       // return response()->json(["message"=> 'Product Saved']);
     }
 
     /**
