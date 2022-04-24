@@ -1,10 +1,21 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { BACKEND_API_ROUTE, headers, userId, userType } from "../util";
 
-export function Products({ products: { products } }) {
+export function Products() {
   // TODO show client before and after buying
+  const [products, setProducts] = useState(); // display loader
+  
+  const fetchData = useCallback(async () => {
+    const { data:{ products } } = await axios.get(`${BACKEND_API_ROUTE}products`, headers);
+    setProducts(products);
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const handlePurchase = async(id) => {
     try {
       const { data } = await axios.post(`${BACKEND_API_ROUTE}purchases/new/${userId}/${id}`, headers)
