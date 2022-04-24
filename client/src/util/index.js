@@ -1,6 +1,6 @@
 export const URL_INDEX = () =>
   "https://restcountries.com/v3.1/name/{name}?fullText=true";
-export const BACKEND_API_ROUTE = "http://192.168.1.66:8000/api/";
+export const BACKEND_API_ROUTE = "http://192.168.1.69:8000/api/";
 
 /** @param { String }  input from user
  * @return { String } lower cased string
@@ -17,3 +17,15 @@ export const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 export const totalize = arr => Object.values(arr)['amount'].reduce((a, b)=> a.amount + b.amount , 0)
 
 export const accept = {Accept: "application/json,text/*;q=0.99" }
+
+export const calculateDiscount= (price) => {
+  let percentage = 0;
+  if (price === 50 || price <= 100) {
+    percentage = 0;
+  } else if (price === 50 || price <= 115) {
+    percentage = 0.25;
+  } else if (price > 120) {
+    percentage = 0.5;
+  }
+  return percentage === 0 ? price : price - (percentage * 100 / price);
+}

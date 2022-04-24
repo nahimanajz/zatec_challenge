@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
  * @param {Function} props.userInfo  setUser info so that can view relavant info on dashboard
  */
 
-export default function Signup({ showDashboard, userInfo }) {
+export default function Signup(props) {
   const navigate = useNavigate();
   const [state, setState] = useState({
     name: "",
@@ -33,6 +33,8 @@ export default function Signup({ showDashboard, userInfo }) {
       } else {
         toast("Well done!!");
         localStorage.setItem('userInfo', JSON.stringify(data.user))
+        props.setUserType(data.user.userType)
+
         navigate('/products')
       }
     } catch (error) {

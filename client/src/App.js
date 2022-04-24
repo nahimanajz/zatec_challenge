@@ -10,15 +10,13 @@ import { BACKEND_API_ROUTE, headers, userId, userInfo as cached, userType } from
 import axios from "axios";
 import { Dashoard } from "./screens/Dashboard";
 import { Logout } from "./screens/Logout";
-import AuthNav from "./screens/AuthNav";
-import AdminNav from "./screens/AdminNav";
-import PublicNav from "./screens/PublicNav";
 
 export default function App() {
   const navigate = useNavigate()
 
   const [logout, setLogout] = useState(false); // display loader
   const[userInfo, setUserInfo] = useState(cached)
+  const[userType, setUserType] = useState();
   const fetchData = useCallback(async () => {
     const { data:balance  } = await axios.get(
       `${BACKEND_API_ROUTE}user/${userId}`,
@@ -28,13 +26,13 @@ export default function App() {
     
   }, []);
  
-  const handleSignout = () => {
+  const handleSignout = useCallback(() => {
   localStorage.clear()
-    navigate('/public')
+    navigate('/')
     setLogout(true)
-    setUserInfo(null)
+    setUserType(null)
 
- }
+ },[navigate])
   useEffect(() => {
     fetchData();
   }, [fetchData, userInfo]);
@@ -42,34 +40,51 @@ export default function App() {
   if(logout) {
     return <Logout />
   }
+  const renderMenus =(userType) => {
+    if(userType === 'client'){
+      return (
+        <>
+          <Link to="products"> Products </Link>
+          <Link to="topup"> Topup </Link>
+          <Link to="dashboard"> Dashboard </Link>
+          <button onClick={handleSignout}>Signout</button> 
+        </>
+
+      )
+    } else if(userType === 'admin') {
+      return (
+        <>
+          <Link to="products"> Products </Link>
+          <Link to="admin/new-product"> New Product </Link>
+          <button onClick={handleSignout}>Signout</button> 
+      </>
+      )
+    } else {
+       return (
+        <>
+          <Link to="signin"> Signin </Link>
+          <Link to="signup"> Signup</Link> 
+       </>
+       )
+    }
+  }
+  
   return (
     <>
-      <div className="header"> zAtec </div>
+      <div className="header"> Zatec </div>
       <div>
-        {!userInfo?(
-          <PublicNav />
-        ):(
-        <>
-          { userType.toLowerCase() === 'admin' ? (
-            <AdminNav />
-          ): (  
-            <AuthNav />
-          )}       
-           <button onClick={handleSignout}>Signout</button> 
-          </>
-        )}        
+           {renderMenus(userType)}                 
         
       </div>
       <div className="main">
         <Routes>
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/admin/new-product" element={<NewProduct />} />
-          <Route path="/topup" element={<Topup />} />
-          <Route path="/dashboard" element={<Dashoard />} />
-          <Route path="/public" element={<PublicNav />} />
-          <Route path="/auth" element={<AuthNav />} />
+          <Route exact path="/signin" element={<Signin setUserType={setUserType} />} />
+          <Route exact path="/signup" element={<Signup setUserType={setUserType}/>} />
+          <Route exact path="/products" element={<Products />} />
+          <Route exact path="/admin/new-product" element={<NewProduct />} />
+          <Route exact path="/topup" element={<Topup />} />
+          <Route exact path="/dashboard" element={<Dashoard />} />
+          
         </Routes>
       </div>
       <div className="footer">  </div>

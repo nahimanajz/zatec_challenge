@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { BACKEND_API_ROUTE, headers, userId, userType } from "../util";
+import { BACKEND_API_ROUTE, calculateDiscount, headers, userId, userType } from "../util";
 
 export function Products() {
   // TODO show client before and after buying
-  const [products, setProducts] = useState(); // display loader
+  const [products, setProducts] = useState(); 
+  const [balance] = useState(localStorage.getItem('balance'))
   
   const fetchData = useCallback(async () => {
     const { data:{ products } } = await axios.get(`${BACKEND_API_ROUTE}products`, headers);
@@ -14,6 +15,7 @@ export function Products() {
 
   useEffect(() => {
     fetchData();
+    console.log(balance)
   }, []);
 
   const handlePurchase = async(id) => {
@@ -26,6 +28,7 @@ export function Products() {
 
   };
   const handleAddDiscount = (id) => {
+    
     alert(id);
   };
   return (
@@ -45,16 +48,30 @@ export function Products() {
                 <li>
                   Discount: <i className="decorate">{discount} Rwf</i>{" "}
                 </li>
+                </ul>
+                
                 {/* TODO: set show purchase if or set discount is user is admin,  */}
-                <li>
+                
                   {userType === "client" ? (
-                    <button onClick={() => handlePurchase(id)}>Purchase</button>
+                    <ul type="none">
+                     <li> 
+                         Balance before paying is:<label className="price">{balance}</label> RWF 
+                    </li>
+                    <li>
+                          Balance after paying would be:
+                           <label className="price">
+                              {(parseInt(balance) - calculateDiscount(parseInt(price)).toFixed(3))} Rwf
+                             </label>
+                      </li>
+                      <li>
+                        <button onClick={() => handlePurchase(id)} > Purchase </button>
+                     </li>
+                    </ul>
                   ) : (
                     <button onClick={() => handleAddDiscount(id)}>Discount</button>
                   )}
-                </li>
+         
                 <hr />
-              </ul>
             </div>
           </div>
         ))}
