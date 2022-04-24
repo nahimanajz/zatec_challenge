@@ -20,7 +20,6 @@ export default function App() {
   const [logout, setLogout] = useState(false); // display loader
   const[userInfo, setUserInfo] = useState(cached)
   const fetchData = useCallback(async () => {
-    const { data } = await axios.get(`${BACKEND_API_ROUTE}products`, headers);
     const { data:balance  } = await axios.get(
       `${BACKEND_API_ROUTE}user/${userId}`,
       headers
@@ -31,7 +30,7 @@ export default function App() {
  
   const handleSignout = () => {
   localStorage.clear()
-    navigate('/public')
+    navigate('/')
     setLogout(true)
     setUserInfo(null)
 
@@ -45,20 +44,10 @@ export default function App() {
   }
   return (
     <>
-      <div className="header"> zAtec </div>
+      <div className="header"> Zatec </div>
       <div>
-        {!userInfo?(
-          <PublicNav />
-        ):(
-        <>
-          { userType.toLowerCase() === 'admin' ? (
-            <AdminNav />
-          ): (  
-            <AuthNav />
-          )}       
-           <button onClick={handleSignout}>Signout</button> 
-          </>
-        )}        
+        {!userInfo ? <PublicNav /> : userType.toLowerCase() === 'admin'? <AdminNav /> : (<AuthNav />)}       
+           <button onClick={handleSignout}>Signout</button>                  
         
       </div>
       <div className="main">
@@ -69,8 +58,7 @@ export default function App() {
           <Route exact path="/admin/new-product" element={<NewProduct />} />
           <Route exact path="/topup" element={<Topup />} />
           <Route exact path="/dashboard" element={<Dashoard />} />
-          <Route exact path="/public" element={<PublicNav />} />
-          <Route exact path="/auth" element={<AuthNav />} />
+          
         </Routes>
       </div>
       <div className="footer">  </div>
