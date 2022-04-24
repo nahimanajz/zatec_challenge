@@ -1,5 +1,4 @@
-export const URL_INDEX = () =>
-  "https://restcountries.com/v3.1/name/{name}?fullText=true";
+
 export const BACKEND_API_ROUTE = "http://192.168.1.69:8000/api/";
 
 /** @param { String }  input from user
