@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
-import { BACKEND_API_ROUTE, headers } from "../util";
+import { BACKEND_API_ROUTE, headers, userId } from "../util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 export default function Topup(props) {
-  const [state, setState] = useState({user_id: localStorage.getItem("userInfo").id});
+  const [state, setState] = useState({currency: 'RWF'});
   const handleChange = useCallback(
     (e) => {
       setState({ ...state, [e.target.name]: e.target.value });
@@ -19,7 +19,7 @@ export default function Topup(props) {
   const handleSaveTopup = async() => {
 
     try {
-      const { data } = await axios.post(`${BACKEND_API_ROUTE}topup/create`, state, {...headers, accept: 'application/json'});
+      const { data } = await axios.post(`${BACKEND_API_ROUTE}topup/create`, {...state, user_id: userId }, {...headers, accept: 'application/json'});
       if (data.topup) { 
         toast(data.message)
       } else{
@@ -44,17 +44,7 @@ export default function Topup(props) {
               name="amount"
               required
             />
-          </li>
-          <li>
-            <label>Currency</label>
-            <input
-              type="text"
-              onChange={handleChange}
-              placeholder="Currency"
-              name="currency"
-              required
-            />
-          </li>
+          </li>          
           <li>
             <input
               type="button"

@@ -1,0 +1,113 @@
+*:root{
+  --primary-color: #3476ed;
+  --secondary-color: tomato;
+}
+
+#root {
+ margin: 0;
+ display:grid;
+ grid-template-rows: auto 1fr auto; 
+}
+
+.header{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 8px 0;
+  color:  var(--primary-color);
+  font-size:32px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: bold;
+
+}
+.logo{ 
+  top: 0px;
+  position: sticky;
+
+}
+.form{
+  box-shadow:  3px 3px;
+  border: 2px solid #c4c3c4;
+  text-align: center;
+  margin-bottom: 16px; 
+  padding-bottom: 32px;
+}
+ .main {
+ 
+}
+
+.album-photo{
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+  gap: 16px;
+}
+.photo {
+  display:flex;
+  flex-direction: column-reverse;
+  border-radius: 4px;
+  border: 0.5px solid blue;
+  min-width: 100px;
+  padding: 16px;
+   
+}
+img{
+  margin-top: 8px;
+}
+input,  button, select {
+  height: 32px;
+  min-width: 60vh;
+}
+button{
+  background:var(--primary-color);
+  color: white;
+  border: 0.1px solid var(--primary-color);
+  max-width: 10px;
+}
+.not-found {
+  color: tomato;
+  display: grid;
+  place-items: center;
+  font-size: 64px;
+}
+.container{
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  border: .1px solid var(--primary-color);
+
+}
+.modal {
+  display: grid;
+  list-style-type: none;
+  gap: 20px;
+  grid-template-rows: repeat(5,1fr);
+}
+.modal li {
+  display: flex;
+  flex-direction: column;
+  max-width: 30%;
+}
+.subtitle2 {text-transform: capitalize;}
+.decorate { text-decoration:line-through; color: var(--secondary-color); }
+.dashboard {
+  display: grid;
+  grid-template-rows: 0.4fr 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 24px;
+  }
+.dashboard-content {
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 24px;
+}
+@media (max-width:320px){
+  .album-photo{
+    grid-template-columns: repeat(2,1fr);
+  }
+  button{
+    margin-top: 8px;
+    max-width: 200px;
+  }
+}
