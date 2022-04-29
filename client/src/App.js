@@ -59,12 +59,18 @@ export default function App() {
           <button onClick={handleSignout}>Signout</button> 
       </>
       )
-    } else {
+    } else if(!localStorage.getItem('userInfo')) {
        return (
         <>
           <Link to="signin"> Signin </Link>
           <Link to="signup"> Signup</Link> 
        </>
+       )
+    } else {
+      return (
+        <div>
+          Working on auto refresh Please refresh
+       </div>
        )
     }
   }

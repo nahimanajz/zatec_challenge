@@ -57,6 +57,7 @@ Route::post('/topup/create', [TopupController::class, 'store']);
 Route::get('/topups/all/{user_id}', [TopupController::class, 'index']);
 Route::get('/purchases/all/{user_id}', [PurchasesController::class, 'index']);
 Route::post('/purchases/new/{user_id}/{product_id}', [PurchasesController::class, 'store']);
+Route::put('/discount/{product_id}/{discount}', [ProductController::class, 'update']);
 Route::get('/user/{user_id}', function($userId){
    return User::find($userId)->balance;
 });
