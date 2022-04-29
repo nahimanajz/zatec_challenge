@@ -7,6 +7,9 @@ export function Products() {
   // TODO show client before and after buying
   const [products, setProducts] = useState(); 
   const [balance] = useState(localStorage.getItem('balance'))
+  const [showModal, showEditModal] = useState(false)
+  const [productId, setProductId] = useState(0)
+  const [discount, setNewDiscount] = useState(0)
   
   const fetchData = useCallback(async () => {
     const { data:{ products } } = await axios.get(`${BACKEND_API_ROUTE}products`, headers);
@@ -18,7 +21,7 @@ export function Products() {
     console.log(balance)
   }, []);
 
-  const handlePurchase = async(id) => {
+  const handlePurchase = async (id) => {
     try {
       const { data } = await axios.post(`${BACKEND_API_ROUTE}purchases/new/${userId}/${id}`, headers)
       toast(data.message)
@@ -27,14 +30,30 @@ export function Products() {
     }
 
   };
-  const handleAddDiscount = (id) => {
-    
-    alert(id);
+  const handleAddDiscount = async() => {  
+    alert(JSON.stringify(productId))
+    try {
+    const { data } = await axios.put(`${BACKEND_API_ROUTE}discount/${productId}/${discount}`, headers)
+    toast(data.message)
+    showEditModal(false)
+      
+  } catch (error) {
+      console.log(error.message)
+      toast.error('something went wrong')
+    }
   };
   return (
     <>
     <ToastContainer />
-    <div className="container">
+    {showModal ? (
+      <>
+        <div> Set new disount </div>
+        <input type="text" name="product_id" onChange={(e)=> setNewDiscount(e.target.value)}/>
+        <button onClick={handleAddDiscount}>Update</button>
+      </>
+    
+    ) : (
+      <div className="container">
       {!products && <div>Not found</div>}
       {products &&
         products.map(({ id,name, price, discount }) => (
@@ -68,17 +87,19 @@ export function Products() {
                      </li>
                     </ul>
                   ) : (
-                    <button onClick={() => handleAddDiscount(id)}>Discount</button>
+                    <button onClick={()=> {
+                      showEditModal(true)
+                      setProductId(id)
+                    }}>Discount</button>
                   )}
          
                 <hr />
             </div>
           </div>
         ))}
-
-      {/* {JSON.stringify(products)}
-            { products && products.map(item => <ListableProduct product={item} key={item.id} /> )} */}
     </div>
+    )}
+    
   </>
   );
 }

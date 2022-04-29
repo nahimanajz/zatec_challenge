@@ -83,9 +83,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update($productId, $discount)
     {
-        //
+        Product::find($productId)->update(["discount" => $discount]);
+        return response()->json(["message" => "discounted succesfully"], 200);
     }
 
     /**
