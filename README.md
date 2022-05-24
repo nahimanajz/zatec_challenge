@@ -37,7 +37,7 @@ Tools
 - ReactJs functional components and localstorage to keep user info and API TOKEN
  
 ## Dev notes
-- To test email feature you need to set receiver address like this ``ADMIN_EMAIL=RECEIVER_ADDRESS``
+- To test email feature you need to set receiver address like this ``ADMIN_EMAIL=RECEIVER_ADDRESS`` check your spam folder to check for sent email
 Updates
  =======
  - Add feature that can be used by admin to update
