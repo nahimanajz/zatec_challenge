@@ -114,9 +114,17 @@ button {
     grid-column-gap: 0px;
     grid-row-gap: 24px;
 }
-@media (max-width:320px){
-  .album-photo{
+@media (max-width: 768px) {
+  .album-photo, .container{
     grid-template-columns: repeat(2,1fr);
+    gap: 20px;
+    margin: 20px;
+  }
+}
+@media (max-width:320px){
+  .album-photo, .container{
+    grid-template-columns: repeat(1,1fr);
+    gap: 20px;
   }
   button{
     margin-top: 8px;

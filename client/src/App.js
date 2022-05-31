@@ -6,17 +6,20 @@ import { Products } from "./screens/Products";
 import Topup from "./screens/Topup";
 import NewProduct from "./screens/Admin/NewProduct";
 import { useCallback, useEffect, useState } from "react";
-import { BACKEND_API_ROUTE, headers, userId, userInfo as cached, userType } from "./util";
+import { BACKEND_API_ROUTE, headers, userId, userInfo as cached } from "./util";
 import axios from "axios";
 import { Dashoard } from "./screens/Dashboard";
-import { Logout } from "./screens/Logout";
+import { toast } from "react-toastify";
+import AdminNav from "./screens/AdminNav"
+import PublicNav from "./screens/PublicNav"
+import ClientNav from "./screens/ClientNav"
 
 export default function App() {
   const navigate = useNavigate()
 
   const [logout, setLogout] = useState(false); // display loader
-  const[userInfo, setUserInfo] = useState(cached)
-  const[userType, setUserType] = useState();
+  const[userInfo] = useState(cached)
+  const[userType, setUserType] = useState("public");
   const fetchData = useCallback(async () => {
     const { data:balance  } = await axios.get(
       `${BACKEND_API_ROUTE}user/${userId}`,
@@ -26,71 +29,48 @@ export default function App() {
     
   }, []);
  
-  const handleSignout = useCallback(() => {
-  localStorage.clear()
-    navigate('/')
+  const handleSignout = useCallback( async () => {
+    const { data  } = await axios.post(`${BACKEND_API_ROUTE}auth/logout`, headers);
+    toast(data.message)
+    localStorage.clear()
+    navigate('/signin')
     setLogout(true)
     setUserType(null)
 
  },[navigate])
   useEffect(() => {
     fetchData();
-  }, [fetchData, userInfo]);
+  }, [fetchData, userInfo, logout]);
 
-  if(logout) {
-    return <Logout />
+useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("userInfo"))
+  if(user?.userType === "client") {
+    setUserType("client")
+  } else if(user?.userType === "admin"){
+    setUserType("admin")
+  }else {
+    setUserType("public")
   }
-  const renderMenus =(userType) => {
-    if(userType === 'client'){
-      return (
-        <>
-          <Link to="products"> Products </Link>
-          <Link to="topup"> Topup </Link>
-          <Link to="dashboard"> Dashboard </Link>
-          <button onClick={handleSignout}>Signout</button> 
-        </>
-
-      )
-    } else if(userType === 'admin') {
-      return (
-        <>
-          <Link to="products"> Products </Link>
-          <Link to="admin/new-product"> New Product </Link>
-          <button onClick={handleSignout}>Signout</button> 
-      </>
-      )
-    } else if(!localStorage.getItem('userInfo')) {
-       return (
-        <>
-          <Link to="signin"> Signin </Link>
-          <Link to="signup"> Signup</Link> 
-       </>
-       )
-    } else {
-      return (
-        <div>
-          Working on auto refresh Please refresh
-       </div>
-       )
-    }
-  }
-  
+}, [userType])
   return (
     <>
       <div className="header"> Zatec </div>
       <div>
-           {renderMenus(userType)}                 
-        
+        { userType === 'public' && <PublicNav  /> }
+        { userType === 'client' &&  <ClientNav> <button onClick={handleSignout}> Signout</button> </ClientNav> }
+        { userType === 'admin' &&  <AdminNav> <button onClick={handleSignout}> Signout</button> </AdminNav>}
+           
+           
+          
       </div>
       <div className="main">
         <Routes>
           <Route exact path="/signin" element={<Signin setUserType={setUserType} />} />
           <Route exact path="/signup" element={<Signup setUserType={setUserType}/>} />
-          <Route exact path="/products" element={<Products />} />
+          <Route exact path="/products" element={<Products userType={userType}/>} />
           <Route exact path="/admin/new-product" element={<NewProduct />} />
           <Route exact path="/topup" element={<Topup />} />
           <Route exact path="/dashboard" element={<Dashoard />} />
-          
         </Routes>
       </div>
       <div className="footer">  </div>

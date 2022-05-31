@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { BACKEND_API_ROUTE, calculateDiscount, headers, userId, userType } from "../util";
 
-export function Products() {
+export function Products(props) {
   // TODO show client before and after buying
   const [products, setProducts] = useState(); 
   const [balance] = useState(localStorage.getItem('balance'))
@@ -31,7 +31,6 @@ export function Products() {
 
   };
   const handleAddDiscount = async() => {  
-    alert(JSON.stringify(productId))
     try {
     const { data } = await axios.put(`${BACKEND_API_ROUTE}discount/${productId}/${discount}`, headers)
     toast(data.message)
@@ -71,7 +70,7 @@ export function Products() {
                 
                 {/* TODO: set show purchase if or set discount is user is admin,  */}
                 
-                  {userType === "client" ? (
+                  {props.userType === "client" ? (
                     <ul type="none">
                      <li> 
                          Balance before paying is:<label className="price">{balance}</label> RWF 
@@ -103,4 +102,3 @@ export function Products() {
   </>
   );
 }
-const iconStyle = { height: "64px", width: "64px" };

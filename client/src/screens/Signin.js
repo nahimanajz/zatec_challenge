@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { BACKEND_API_ROUTE, headers } from "../util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +23,7 @@ export default function Signin(props) {
       const { data } = await axios.post(`${BACKEND_API_ROUTE}auth/login`, state, {...headers, accept: 'application/json'});
       if (data.token) {
         localStorage.setItem("userInfo", JSON.stringify(data.user));
-        localStorage.setItem("userToken", data.token);
+        localStorage.setItem("userToken", JSON.stringify(data.token));
         props.setUserType(data.user.userType)
       
         navigate('/products')
