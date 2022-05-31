@@ -4,8 +4,8 @@ export default function PublicNav () {
  
     return (
         <>
-         <Link to="/signin"> Signin </Link>
-         <Link to="/signup"> Signup</Link> 
+         <Link to="/signin" className="item"> Signin </Link>
+         <Link to="/signup" className="item"> Signup</Link> 
         </>
        
     )

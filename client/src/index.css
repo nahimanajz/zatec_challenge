@@ -33,7 +33,7 @@
   padding-bottom: 32px;
 }
  .main {
- 
+ /* background: linear-gradient(45deg,#ccc, #c1c4c4); */
 }
 
 .album-photo{
@@ -57,6 +57,7 @@ input, select {
   height: 32px;
   min-width: 60vh;
 }
+
 .price {
   font-weight: 300;
   color: var(--secondary-color);
@@ -114,6 +115,13 @@ button {
     grid-column-gap: 0px;
     grid-row-gap: 24px;
 }
+.item {
+  color: #3476ed;
+  text-transform: capitalize;
+  font-size: 32px;
+  text-decoration: none;
+}
+.item:hover{background: #3476ed; color: white; padding: 8px;}
 @media (max-width: 768px) {
   .album-photo, .container{
     grid-template-columns: repeat(2,1fr);

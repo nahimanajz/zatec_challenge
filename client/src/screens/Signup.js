@@ -79,11 +79,12 @@ export default function Signup(props) {
             />
           </li>
           <li>
-            <label>User Type (optional) {state?.userType}</label>
+            <label>User Type (optional)</label>
             <select
               type="select"
               onChange={handleChange}
               name="userType"
+              className="form-control"
               required
             >
               <option value="client">Client</option>
@@ -92,6 +93,7 @@ export default function Signup(props) {
           </li>
 
           <li>
+          
             <input
               type="button"
               onClick={handleSignup}

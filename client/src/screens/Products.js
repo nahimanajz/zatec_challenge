@@ -53,7 +53,7 @@ export function Products(props) {
     
     ) : (
       <div className="container">
-      {!products && <div>Not found</div>}
+      {!products && <div className="not-found">Not found</div>}
       {products &&
         products.map(({ id,name, price, discount }) => (
           <div className="grid-col-3 m-top-32">

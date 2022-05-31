@@ -59,9 +59,6 @@ useEffect(() => {
         { userType === 'public' && <PublicNav  /> }
         { userType === 'client' &&  <ClientNav> <button onClick={handleSignout}> Signout</button> </ClientNav> }
         { userType === 'admin' &&  <AdminNav> <button onClick={handleSignout}> Signout</button> </AdminNav>}
-           
-           
-          
       </div>
       <div className="main">
         <Routes>

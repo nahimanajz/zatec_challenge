@@ -4,8 +4,8 @@ export default function AdminNav ({children}) {
 
     return (
         <>
-        <Link to="/products"> Products </Link>
-        <Link to="/admin/new-product"> New Product </Link>
+        <Link to="/products" className="item"> Products </Link>
+        <Link to="/admin/new-product" className="item"> New Product </Link>
         {children}
       </>
        
