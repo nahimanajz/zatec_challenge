@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { BACKEND_API_ROUTE, calculateDiscount, headers, userId, userType } from "../util";
+import { BACKEND_API_ROUTE, calculateDiscount, headers, userId } from "../util";
 
 export function Products(props) {
   // TODO show client before and after buying
   const [products, setProducts] = useState(); 
-  const [balance] = useState(localStorage.getItem('balance'))
   const [showModal, showEditModal] = useState(false)
   const [productId, setProductId] = useState(0)
   const [discount, setNewDiscount] = useState(0)
@@ -18,7 +17,6 @@ export function Products(props) {
 
   useEffect(() => {
     fetchData();
-    console.log(balance)
   }, []);
 
   const handlePurchase = async (id) => {
@@ -62,24 +60,13 @@ export function Products(props) {
                 <strong>{name}</strong>
               </ul>
               <ul type="none">
-                <li>Price:{price} Rwf</li>
-                <li>
-                  Discount: <i className="decorate">{discount} Rwf</i>{" "}
-                </li>
+                  <li>Price:{price} Rwf</li>
                 </ul>
-                
                 {/* TODO: set show purchase if or set discount is user is admin,  */}
-                
                   {props.userType === "client" ? (
-                    <ul type="none">
-                     <li> 
-                         Balance before paying is:<label className="price">{balance}</label> RWF 
-                    </li>
-                    <li>
-                          Balance after paying would be:
-                           <label className="price">
-                              {(parseInt(balance) - calculateDiscount(parseInt(price)).toFixed(3))} Rwf
-                             </label>
+                    <ul type="none">                     
+                      <li className="price">
+                        You Pay: {calculateDiscount(parseInt(price)).toFixed(2)} Rwf                         
                       </li>
                       <li>
                         <button onClick={() => handlePurchase(id)} > Purchase </button>
