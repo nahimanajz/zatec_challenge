@@ -19,7 +19,7 @@ export default function Topup(props) {
   const handleSaveTopup = async() => {
 
     try {
-      const { data } = await axios.post(`${BACKEND_API_ROUTE}topup/create`, {...state, user_id: userId }, {...headers, accept: 'application/json'});
+      const { data } = await axios.post(`${BACKEND_API_ROUTE}topup/create`, {...state, user_id: userId }, {headers});
       if (data.topup) { 
         toast(data.message)
       } else{

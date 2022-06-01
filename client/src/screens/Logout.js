@@ -1,9 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Logout = () => {
+  const navigate = useNavigate()
+
+  const handleLogin = () => {
+    //window.location.reload()
+    
+    navigate("/signin")
+    
+  }
   return (
     <>
-      <button onClick={()=> window.location.reload()}> Signin </button>
+      <button onClick={handleLogin}> Signin </button>
       <div> Thanks for shopping with us </div>
     </>
   );

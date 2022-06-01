@@ -34,11 +34,11 @@ export default function Signup(props) {
         toast("Well done!!");
         localStorage.setItem('userInfo', JSON.stringify(data.user))
         props.setUserType(data.user.userType)
-
-        navigate('/products')
+        navigate('/signin')
       }
     } catch (error) {
-      toast(error.message);
+      console.log(error.message)
+      toast('Given data was invalid');
     }
   };
   return (
@@ -84,6 +84,7 @@ export default function Signup(props) {
               type="select"
               onChange={handleChange}
               name="userType"
+              className="form-control"
               required
             >
               <option value="client">Client</option>
@@ -92,6 +93,7 @@ export default function Signup(props) {
           </li>
 
           <li>
+          
             <input
               type="button"
               onClick={handleSignup}

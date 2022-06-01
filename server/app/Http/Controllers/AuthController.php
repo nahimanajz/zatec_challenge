@@ -39,10 +39,10 @@ class AuthController extends Controller
         ]);      
        
   } 
-    public function logout()
-    {
-        auth()->user()->tokens()->delete();
-
+    public function logout(Request $req) {       
+        if ($req->user()) { 
+            $req->user()->tokens()->delete();
+        }
         return [
             'message' => 'Tokens Revoked'
         ];

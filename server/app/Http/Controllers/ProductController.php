@@ -48,7 +48,7 @@ class ProductController extends Controller
           $data = request()->only('price', 'name', 'discount');
           $vld = Validator::make($data, $rules);
         if($vld->fails()) {
-            return $vld->messages();
+           return response()->json(["message"=> $vld->errors()]);
         }
        Product::create($data);
        return response()->json(["message"=> 'Product Saved']);

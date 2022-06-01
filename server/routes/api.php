@@ -42,23 +42,25 @@ Route::post('/purchase/{user_id}/{product_id}', 'TransactionController@store'); 
 Route::group(['prefix'=>'auth'], function (){
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/signup', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+
 });
 
 //product route 
 //Route::group(['prefix'=>'products', 'middleware'=> 'auth:sanctum'], function (){
-Route::group(['prefix'=>'products'], function (){
-    Route::get('/', [ProductController::class, 'index']); 
-    Route::get('/purchase/{user_id}/{}', 'ProductController@store'); //cliend id 
-    Route::get('/purchase/{user_id}/{}', 'ProductController@store'); //cliend id 
+Route::group(['prefix'=>'products'], function (){   
+  Route::get('/', [ProductController::class, 'index']);  
 });
 
 //Topup & purchas routes
-Route::post('/topup/create', [TopupController::class, 'store']);
-Route::get('/topups/all/{user_id}', [TopupController::class, 'index']);
-Route::get('/purchases/all/{user_id}', [PurchasesController::class, 'index']);
-Route::post('/purchases/new/{user_id}/{product_id}', [PurchasesController::class, 'store']);
-Route::put('/discount/{product_id}/{discount}', [ProductController::class, 'update']);
-Route::get('/user/{user_id}', function($userId){
-   return User::find($userId)->balance;
-});
-
+//Route::group(['middleware' => 'auth:sanctum'], function() {
+    
+    Route::post('/topup/create', [TopupController::class, 'store']);
+    Route::get('/topups/all/{user_id}', [TopupController::class, 'index']);
+    Route::get('/purchases/all/{user_id}', [PurchasesController::class, 'index']);
+    Route::post('/purchases/new/{user_id}/{product_id}', [PurchasesController::class, 'store']);
+    Route::put('/discount/{product_id}/{discount}', [ProductController::class, 'update']);
+    Route::get('/user/{user_id}', function($userId){
+       return User::find($userId)->balance;
+    });
+//});
